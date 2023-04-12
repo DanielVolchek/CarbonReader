@@ -5,10 +5,12 @@ import FileContents from "./FileContents";
 
 // type FileType = "directory" | "image" | "text" | "unknown";
 
+export type DirectoryFile = { path: string; type: "DIRECTORY" | "FILE" };
+
 export type MinimalFile = { path: string } & (
   | {
       type: "DIRECTORY";
-      content: string[];
+      content: DirectoryFile[];
     }
   | {
       type: "IMAGE" | "TEXT";
@@ -23,7 +25,7 @@ export type MinimalFile = { path: string } & (
 
 const FileWrapper = () => {
   const [currentPath, setCurrentPath] = useState(null);
-  const [files, setCurrentFiles] = useState<string[]>([]);
+  const [files, setCurrentFiles] = useState<DirectoryFile[]>([]);
   const [data, setCurrentData] = useState<MinimalFile | null>(null);
 
   const fetchFiles = async (file?: string | null) => {
@@ -54,7 +56,7 @@ const FileWrapper = () => {
   if (!currentPath && !files) return <Loading />;
 
   return (
-    <div className="bg-white w-10/12 border-[5px] p-2 border-gray-800 flex">
+    <div className="bg-white w-[90%] border-[5px] p-2 border-gray-800 flex h-[90%]">
       <FileList files={files} fetchFiles={fetchFiles} />
       <FileContents file={data} />
     </div>

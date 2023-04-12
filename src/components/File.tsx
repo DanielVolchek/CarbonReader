@@ -1,4 +1,4 @@
-import { MinimalFile } from "./FileWrapper";
+import { DirectoryFile, MinimalFile } from "./FileWrapper";
 import Loading from "./Loading";
 
 const getNameFromFile = (file: string) => {
@@ -10,7 +10,7 @@ const File = ({
   fetchFiles,
   back,
 }: {
-  file: { path: string; type: string };
+  file: DirectoryFile;
   fetchFiles: (s: string) => Promise<void>;
   back?: string;
 }) => {
@@ -18,6 +18,7 @@ const File = ({
 
   const handleClick = async () => {
     console.log("sending path " + file);
+    if (!file.path) return await fetchFiles(back ? back : "");
     await fetchFiles(file.path);
   };
 

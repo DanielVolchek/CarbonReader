@@ -37,14 +37,22 @@ const files = (req: NextApiRequest, res: NextApiResponse) => {
   if (req.query.path != undefined && !Array.isArray(req.query.path)) {
     console.log("changing path");
     path = req.query.path;
+    // if path is encoded version of /
+    if (path === "%2F") path = "/";
   }
   console.log("path is ", path);
 
   console.log("step 2: check type");
-  const stats = fs.statSync(path);
+  let stats;
+  try {
+    stats = fs.statSync(path);
+  } catch (e) {
+    console.log(e);
+  }
+  if (!stats) return res.status(404).json({ error: "path does not exist" });
   if (stats.isDirectory()) {
     // if last character is not indicating that path is a directory append it
-    if (path.charAt(path.length - 1) != "/") path += "/";
+    if (path != "/" && path.charAt(path.length - 1) != "/") path += "/";
     console.log("is directory");
     if (download)
       // zip file and send it
@@ -57,7 +65,12 @@ const files = (req: NextApiRequest, res: NextApiResponse) => {
       // set files to be their absolute path
       const response = files.map((f) => {
         const full = path + f;
-        const type = fs.statSync(full);
+        let type;
+        try {
+          type = fs.statSync(full);
+        } catch (err) {
+          type = { isDirectory: () => false };
+        }
         return {
           path: path + f,
           type: type.isDirectory() ? "DIRECTORY" : "FILE",
