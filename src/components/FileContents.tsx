@@ -29,7 +29,7 @@ const FileContents = ({ file }: { file: MinimalFile | null }) => {
   };
 
   return (
-    <div className="flex justify-center flex-col">
+    <div className="flex justify-center flex-col overflow-auto max-h-screen">
       {<RenderContents file={file} />}
     </div>
   );

@@ -52,11 +52,18 @@ const files = (req: NextApiRequest, res: NextApiResponse) => {
     else {
       // send the names of the files in the directory
       console.log("sending names of files");
-      let files = fs.readdirSync(path);
+      const files = fs.readdirSync(path);
       console.log("got ", files);
       // set files to be their absolute path
-      files = files.map((f) => path + f);
-      return res.status(200).json({ type: "DIRECTORY", content: files });
+      const response = files.map((f) => {
+        const full = path + f;
+        const type = fs.statSync(full);
+        return {
+          path: path + f,
+          type: type.isDirectory() ? "DIRECTORY" : "FILE",
+        };
+      });
+      return res.status(200).json({ type: "DIRECTORY", content: response });
     }
   }
   if (stats.isFile()) {

@@ -8,15 +8,17 @@ const getNameFromFile = (file: string) => {
 const File = ({
   file,
   fetchFiles,
+  back,
 }: {
-  file: string | null;
+  file: { path: string; type: string };
   fetchFiles: (s: string) => Promise<void>;
+  back?: string;
 }) => {
   if (!file) return <Loading />;
 
   const handleClick = async () => {
     console.log("sending path " + file);
-    await fetchFiles(file);
+    await fetchFiles(file.path);
   };
 
   return (
@@ -24,7 +26,8 @@ const File = ({
       onClick={handleClick}
       className="cursor-pointer hover:underline min-w-[15vw]"
     >
-      {getNameFromFile(file)}
+      {back ? ".." : getNameFromFile(file.path)}
+      {typeof file !== "string" && file.type === "DIRECTORY" && "/"}
     </div>
   );
 };
