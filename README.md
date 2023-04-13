@@ -8,10 +8,10 @@ Left a note on your computer and need to read it? Forgot to commit a file before
 ## How to use it
 
 1. Clone CarbonReader to the computer you plan on using it from
-2. Create a file named .env.local
+2. Create a file named .env.local (or copy .env_example as .env.local)
 3. Enter a field for PASSWORD (PASSWORD="X")
 4. Optionally enter a field for the rootPath where you want the app to start from (rootPath="X")
-5. Start it using yarn start
+5. Install dependencies, build, and start using `yarn && yarn build && yarn start`
 6. Optionally set up hosting through whatever service you would like
 7. You're done! Feel free to use it however you'd like!
 
