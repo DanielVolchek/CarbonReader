@@ -12,7 +12,7 @@ const FileList = ({
 }) => {
   if (!files) return <Loading />;
 
-  const getCurrentFile = useMemo(() => {
+  const getCurrentFile = () => {
     if (typeof window === "undefined") return "";
     if (!files || !files[0]) return "";
     console.log(files[0]);
@@ -22,9 +22,9 @@ const FileList = ({
     // pop directory name
     if (back.length === 1) return "/";
     return back.join("/");
-  }, [files]);
+  };
 
-  const getBackFile = useMemo(() => {
+  const getBackFile = () => {
     if (typeof window === "undefined") return "";
     if (!files || !files[0]) return "";
     console.log(files[0]);
@@ -41,15 +41,15 @@ const FileList = ({
     if (back.length === 1) return "%2F";
     // return the directory behind current
     return back.join("/");
-  }, [files]);
+  };
 
   return (
     <div className="border-r-2 border-gray-800 flex flex-col gap-4 overflow-x-auto">
-      <h2 className="font-bold">{getCurrentFile}</h2>
+      <h2 className="font-bold">{getCurrentFile()}</h2>
       <File
         file={{ type: "FILE", path: "" }}
         fetchFiles={fetchFiles}
-        back={getBackFile}
+        back={getBackFile()}
       />
       {files.map((file) => (
         <File key={file.path} file={file} fetchFiles={fetchFiles} />

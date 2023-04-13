@@ -44,12 +44,12 @@ const Text = ({ text }: { text: string }) => {
   return (
     <div className="flex flex-col">
       {split.map((line) => (
-        <div>{line}</div>
+        <div key={line}>{line}</div>
       ))}
     </div>
   );
 };
 
 const Image = ({ image_string }: { image_string: string }) => {
-  return <img src={`data:image/jpeg;base64,${image_string}`} />;
+  return <img src={`data:image/jpeg;base64,${image_string}`} alt="" />;
 };
