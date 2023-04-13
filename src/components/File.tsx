@@ -17,7 +17,6 @@ const File = ({
   if (!file) return <Loading />;
 
   const handleClick = async () => {
-    console.log("sending path " + file);
     if (!file.path) return await fetchFiles(back ? back : "");
     await fetchFiles(file.path);
   };

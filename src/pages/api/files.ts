@@ -19,7 +19,6 @@ const isHumanReadable = (filePath: string) => {
 };
 
 const files = (req: NextApiRequest, res: NextApiResponse) => {
-  console.log("files api called");
   if (req.method === "POST")
     // todo change to upload file
     return res.status(400).json({ error: "method not allowed" });
@@ -33,35 +32,26 @@ const files = (req: NextApiRequest, res: NextApiResponse) => {
   // root path will be set in env
   // todo set path in env; download npm dotenv; process env in files
   let path = rootPath;
-  console.log("step 1: set path");
   if (req.query.path != undefined && !Array.isArray(req.query.path)) {
-    console.log("changing path");
     path = req.query.path;
     // if path is encoded version of /
     if (path === "%2F") path = "/";
   }
-  console.log("path is ", path);
 
-  console.log("step 2: check type");
   let stats;
   try {
     stats = fs.statSync(path);
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (e) {}
   if (!stats) return res.status(404).json({ error: "path does not exist" });
   if (stats.isDirectory()) {
     // if last character is not indicating that path is a directory append it
     if (path != "/" && path.charAt(path.length - 1) != "/") path += "/";
-    console.log("is directory");
     if (download)
       // zip file and send it
       return;
     else {
       // send the names of the files in the directory
-      console.log("sending names of files");
       const files = fs.readdirSync(path);
-      console.log("got ", files);
       // set files to be their absolute path
       const response = files.map((f) => {
         const full = path + f;

@@ -15,7 +15,6 @@ const FileList = ({
   const getCurrentFile = () => {
     if (typeof window === "undefined") return "";
     if (!files || !files[0]) return "";
-    console.log(files[0]);
     const back = files[0].path.split("/");
     // pop file name
     back.pop();
@@ -27,7 +26,6 @@ const FileList = ({
   const getBackFile = () => {
     if (typeof window === "undefined") return "";
     if (!files || !files[0]) return "";
-    console.log(files[0]);
     const back = files[0].path.split("/");
     // pop file name
     back.pop();

@@ -29,8 +29,6 @@ const FileWrapper = () => {
   const [data, setCurrentData] = useState<MinimalFile | null>(null);
 
   const fetchFiles = async (file?: string | null) => {
-    console.log("fetching data");
-    if (file) console.log("file: ", file);
     const res = await fetch(`/api/files${file ? `?path=${file}` : ""}`);
     const data = (await res.json()) as MinimalFile;
     if (!data.content) {
