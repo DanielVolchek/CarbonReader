@@ -98,7 +98,7 @@ const files = (req: NextApiRequest, res: NextApiResponse) => {
     const isReadable = isHumanReadable(path);
     if (isReadable) {
       const utf8String = buffer.toString("utf-8");
-      return res.status(200).json({ type: "TEXT", content: utf8String });
+      return res.status(200).json({ path, type: "TEXT", content: utf8String });
     }
     return res.status(405).json({ error: "file not human-readable" });
   }

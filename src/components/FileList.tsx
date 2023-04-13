@@ -12,15 +12,25 @@ const FileList = ({
 }) => {
   if (!files) return <Loading />;
 
+  const getCurrentFile = useMemo(() => {
+    if (typeof window === "undefined") return "";
+    if (!files || !files[0]) return "";
+    console.log(files[0]);
+    const back = files[0].path.split("/");
+    // pop file name
+    back.pop();
+    // pop directory name
+    if (back.length === 1) return "/";
+    return back.join("/");
+  }, [files]);
+
   const getBackFile = useMemo(() => {
     if (typeof window === "undefined") return "";
     if (!files || !files[0]) return "";
     console.log(files[0]);
     const back = files[0].path.split("/");
-    console.log("back is ", back);
     // pop file name
     back.pop();
-    console.log("back is ", back);
     // pop directory name
     back.pop();
     // if root
@@ -35,6 +45,7 @@ const FileList = ({
 
   return (
     <div className="border-r-2 border-gray-800 flex flex-col gap-4 overflow-x-auto">
+      <h2 className="font-bold">{getCurrentFile}</h2>
       <File
         file={{ type: "FILE", path: "" }}
         fetchFiles={fetchFiles}

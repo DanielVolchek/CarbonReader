@@ -27,3 +27,4 @@ Were I to continue development, I would add the following features:
   - File Delete
 - Password Hashing to avoid storing plaintext
 - Editing Files
+- Syntax highlighting for code
